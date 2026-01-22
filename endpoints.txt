@@ -1,0 +1,183 @@
+# HOTEL MANAGEMENT SYSTEM - API ENDPOINTS DOCUMENTATION
+# Base URL: http://<your-domain-or-ip>/
+# Note: All endpoints starting with /auth/ are under the accounts app. Others are in the root.
+
+================================================================================
+1. AUTHENTICATION & ACCOUNTS (/auth/)
+================================================================================
+
+Endpoint: /auth/login/
+Methods: POST
+Permission: AllowAny
+Description: Login with credentials to receive JWT tokens.
+Request Body: { "email": "...", "password": "..." }
+
+Endpoint: /auth/logout/
+Methods: POST
+Permission: IsAuthenticated
+Description: Logout the user by blacklisting the tokens.
+Request Body: { "refresh": "<refresh_token>" }
+
+Endpoint: /auth/register/
+Methods: POST, GET
+Permission: POST (AllowAny), GET (IsAuthenticated)
+Description: 
+  - POST: Register a new user.
+  - GET: Retrieve current logged-in user's profile data.
+
+Endpoint: /auth/wellcome/
+Methods: GET
+Permission: AllowAny
+Description: A simple welcome message to test API connectivity.
+
+Endpoint: /auth/change-password/
+Methods: POST
+Permission: IsAuthenticated
+Description: Change the password for the current user.
+
+Endpoint: /auth/reset_password_request/
+Methods: POST
+Permission: AllowAny
+Description: Request a password reset link/otp via email.
+
+Endpoint: /auth/reset_password_confirm/
+Methods: POST
+Permission: AllowAny
+Description: Confirm password reset with the provided token/otp and new password.
+
+Endpoint: /auth/verify_register_otp/
+Methods: POST, GET
+Permission: AllowAny
+Description: 
+  - POST: Verify the registration OTP sent to email.
+  - GET: Resend the registration OTP.
+
+Endpoint: /auth/cheak_authentication/
+Methods: GET
+Permission: IsAuthenticated
+Description: Verify if the current access token is valid and return user data.
+
+
+================================================================================
+2. HOSTEL, ROOMS & BEDS
+================================================================================
+
+Endpoint: /hostel/
+Methods: GET, POST
+Permission: IsAuthenticated, IsHostelMonitorOrAdmin
+Description: List all hostels or create a new hostel.
+
+Endpoint: /hostel/<id>/
+Methods: GET, PUT, PATCH, DELETE
+Permission: IsAuthenticated, IsHostelMonitorOrAdmin
+Description: Retrieve, update, or delete a specific hostel.
+
+Endpoint: /hostel_room/
+Methods: GET, POST
+Permission: IsAuthenticated, IsMonitorOrAdminorStaff
+Description: List all rooms or create a new room in a hostel.
+
+Endpoint: /hostel_room/<id>/
+Methods: GET, PUT, PATCH, DELETE
+Permission: IsAuthenticated, IsMonitorOrAdminorStaff
+Description: Retrieve, update, or delete a specific room.
+
+Endpoint: /hostel_bed/
+Methods: GET, POST
+Permission: IsAuthenticated, IsMonitorOrAdminorStaff
+Description: List all beds or create a new bed in a room.
+
+Endpoint: /hostel_bed/<id>/
+Methods: GET, PUT, PATCH, DELETE
+Permission: IsAuthenticated, IsMonitorOrAdminorStaff
+Description: Retrieve, update, or delete a specific bed.
+
+Endpoint: /hostel_images/
+Methods: GET, POST
+Permission: IsAuthenticated, IsMonitorOrAdminorStaff
+Description: Manage images for hostels.
+
+Endpoint: /hostel_images/<id>/
+Methods: GET, PUT, PATCH, DELETE
+Permission: IsAuthenticated, IsMonitorOrAdminorStaff
+Description: Retrieve, update, or delete a specific hostel image.
+
+Endpoint: /haspermissiontoupload/
+Methods: POST
+Permission: IsAuthenticated
+Description: Checks if the user has reached the limit for uploading images for a specific hostel.
+Request Body: { "hostel_id": <id> }
+
+
+================================================================================
+3. ADDRESS, COORDINATES, REVIEWS & NOTICES
+================================================================================
+
+Endpoint: /address/
+Methods: GET, POST
+Permission: IsAuthenticated, IsMonitororAdmin
+Description: Manage physical addresses for hostels.
+
+Endpoint: /address/<id>/
+Methods: GET, PUT, PATCH, DELETE
+Permission: IsAuthenticated, IsMonitororAdmin
+Description: Retrieve, update, or delete an address.
+
+Endpoint: /coordinate/
+Methods: GET, POST
+Permission: IsAuthenticated, IsMonitororAdmin
+Description: Manage geographic coordinates (map locations) for hostels.
+
+Endpoint: /coordinate/<id>/
+Methods: GET, PUT, PATCH, DELETE
+Permission: IsAuthenticated, IsMonitororAdmin
+Description: Retrieve, update, or delete a coordinate.
+
+Endpoint: /reviews/
+Methods: GET, POST
+Permission: IsAuthenticated, IsOwnerorborderoradmin
+Description: Manage user reviews for hostels.
+
+Endpoint: /reviews/<id>/
+Methods: GET, PUT, PATCH, DELETE
+Permission: IsAuthenticated, IsOwnerorborderoradmin
+Description: Retrieve, update, or delete a review.
+
+Endpoint: /notices/
+Methods: GET, POST
+Permission: IsAuthenticated, IsMonitororAdmin
+Description: Manage notices posted for hostels or users.
+
+Endpoint: /notices/<id>/
+Methods: GET, PUT, PATCH, DELETE
+Permission: IsAuthenticated, IsMonitororAdmin
+Description: Retrieve, update, or delete a notice.
+
+Endpoint: /rating/
+Methods: GET, POST
+Description: Manage hotel/hostel ratings.
+
+Endpoint: /rating/<id>/
+Methods: GET, PUT, PATCH, DELETE
+Description: Retrieve, update, or delete a rating.
+
+
+================================================================================
+4. BOOKING & PAYMENTS
+================================================================================
+
+Endpoint: /booking/
+Methods: GET, POST
+Permission: IsAuthenticated
+Description: 
+  - GET: List bookings (Staff see all, Users see theirs).
+  - POST: Create a new booking for a bed/room.
+
+Endpoint: /booking/<id>/
+Methods: GET, PUT, PATCH, DELETE
+Permission: IsAuthenticated
+Description: Retrieve, update, or delete a booking (Delete restricted to Staff/Admin).
+
+================================================================================
+END OF DOCUMENTATION
+================================================================================
